@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EVConnect</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #f8fafc;
+    padding-bottom: 20px;
+}
+
+/* Header */
+header {
+    background: linear-gradient(90deg, #0f172a, #1e293b);
+    color: white;
+    padding: 18px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #8fde95;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+}
+
+nav ul li a:hover {
+    color: #8fde95;
+}
+
+/* Hero Section */
+#home {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a2f 50%, #0f172a 100%);
+    color: white;
+}
+
+#home h1 {
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+#home p {
+    font-size: 20px;
+    margin-bottom: 30px;
+    color: #e2e8f0;
+}
+
+/* Shared section style */
+section {
+    padding: 50px 60px;
+    max-width: 900px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+section h1 {
+    color: #0f172a;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* About */
+#about p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #334155;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+/* Stations Table */
+#stations {
+    max-width: 1000px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th {
+    background: #0f172a;
+    color: white;
+    padding: 15px;
+}
+
+td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+tr:nth-child(even) { background: #f1f5f9; }
+tr:hover { background: #e2e8f0; }
+
+/* Forms */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+label {
+    font-weight: bold;
+    color: #334155;
+}
+
+input, textarea {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #8fde95;
+}
+
+/* Button */
+.btn {
+    background: linear-gradient(135deg, #4e6762, #83834a);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn:hover { opacity: 0.9; }
+
+.links {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.links a {
+    color: #4e6762;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.links a:hover { text-decoration: underline; }
+
+/* Divider - hidden, cards handle spacing */
+.divider { display: none; }
+
+/* Footer */
+footer {
+    background: #0f172a;
+    color: #cbd5e1;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">⚡ EVConnect</div>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#stations">Stations</a></li>
+            <li><a href="#register">Register</a></li>
+            <li><a href="#login">Login</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- HOME -->
+<div id="home">
+    <h1>Welcome to EVConnect</h1>
+    <p>Find and book EV charging stations near you with ease.</p>
+    <a href="#stations" class="btn">Explore Stations</a>
+</div>
+
+<hr class="divider">
+
+<!-- STATIONS -->
+<section id="stations">
+    <h1>Charging Stations</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Station Name</th>
+                <th>Location</th>
+                <th>Available Ports</th>
+                <th>Timings</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>GreenCharge Hub</td>
+                <td>Whitefield</td>
+                <td>5</td>
+                <td>8:00 AM – 10:00 PM</td>
+            </tr>
+            <tr>
+                <td>EcoVolt Station</td>
+                <td>Electronic City</td>
+                <td>3</td>
+                <td>8:00 AM – 10:00 PM</td>
+            </tr>
+            <tr>
+                <td>PowerCharge Point</td>
+                <td>Koramangala</td>
+                <td>4</td>
+                <td>8:00 AM – 10:00 PM</td>
+            </tr>
+            <tr>
+                <td>VoltEase Hub</td>
+                <td>Indiranagar</td>
+                <td>6</td>
+                <td>7:00 AM – 11:00 PM</td>
+            </tr>
+            <tr>
+                <td>ChargeNest</td>
+                <td>HSR Layout</td>
+                <td>2</td>
+                <td>9:00 AM – 9:00 PM</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<hr class="divider">
+
+<!-- REGISTER -->
+<section id="register">
+    <h1>Create Account</h1>
+    <form action="#login" method="post">
+        <label for="reg-name">Username</label>
+        <input type="text" id="reg-name" placeholder="Enter username" required>
+
+        <label for="reg-email">Email</label>
+        <input type="email" id="reg-email" placeholder="Enter email" required>
+
+        <label for="reg-pass">Password</label>
+        <input type="password" id="reg-pass" placeholder="Create password" required>
+
+        <label for="reg-confirm">Confirm Password</label>
+        <input type="password" id="reg-confirm" placeholder="Confirm password" required>
+
+        <input type="submit" value="Register" class="btn">
+    </form>
+    <div class="links">
+        <p>Already have an account? <a href="#login">Login here</a></p>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- LOGIN -->
+<section id="login">
+    <h1>Login</h1>
+    <form action="#stations" method="post">
+        <label for="log-name">Username</label>
+        <input type="text" id="log-name" placeholder="Enter username" required>
+
+        <label for="log-pass">Password</label>
+        <input type="password" id="log-pass" placeholder="Enter password" required>
+
+        <button type="submit" class="btn">Login</button>
+    </form>
+    <div class="links">
+        <p>Don't have an account? <a href="#register">Register here</a></p>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- ABOUT -->
+<section id="about">
+    <h1>About EVConnect</h1>
+    <p>EVConnect is a smart platform designed to help electric vehicle users easily locate nearby charging stations, check slot availability, and book charging sessions in advance.</p>
+    <p>As the adoption of electric vehicles continues to grow, EVConnect aims to provide a seamless and reliable charging experience through a simple and user-friendly system.</p>
+    <p>Our mission is to make EV charging convenient, accessible, and efficient for everyone while supporting a greener and more sustainable future.</p>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section id="contact">
+    <h1>Contact Us</h1>
+    <form>
+        <label for="con-name">Name</label>
+        <input type="text" id="con-name" placeholder="Your name" required>
+
+        <label for="con-email">Email</label>
+        <input type="email" id="con-email" placeholder="Your email" required>
+
+        <label for="con-msg">Message</label>
+        <textarea id="con-msg" rows="5" placeholder="Write your message here..." required></textarea>
+
+        <button type="submit" class="btn">Send Message</button>
+    </form>
+</section>
+
+<footer>
+    <p>&copy; 2026 EVConnect EV Charging Station Network. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
