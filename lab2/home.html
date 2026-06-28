@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVConnect</title>
+    <link rel="stylesheet" href="styleEV.css">
+</head>
+<body class="app-container">
+
+<header class="main-header">
+    <div class="logo">⚡ EVConnect</div>
+    <nav class="nav-bar">
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#stations">Stations</a></li>
+            <li><a href="#register">Register</a></li>
+            <li><a href="#login">Login</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <button id="theme-toggle" class="theme-btn" onclick="toggleTheme()">🌙 Mode</button>
+</header>
+
+<main class="spa-content">
+    <section id="home" class="hero-section">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>Welcome to EVConnect</h1>
+                <p>Find and book ultra-fast EV charging stations near you with ease.</p>
+                <div class="hero-buttons">
+                    <a href="#stations" class="btn">Explore Stations</a>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="stations" class="section-padding">
+        <h1>Charging Stations</h1>
+        <div id="proximity-match" class="proximity-banner" style="display: none;"></div>
+        
+        <div class="table-container">
+            <button id="geo-btn" class="btn btn-secondary" onclick="getUserLocation()">📍 Locate Nearest Hub</button>
+            <p id="geo-status"></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Station Name</th>
+                        <th>Location</th>
+                        <th>Available Ports</th>
+                        <th>Timings</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="row-whitefield">
+                        <td>GreenCharge Hub</td>
+                        <td>Whitefield</td>
+                        <td>5</td>
+                        <td>8:00 AM – 10:00 PM</td>
+                        <td><button class="btn table-btn" onclick="openModal('GreenCharge Hub')">Book Slot</button></td>
+                    </tr>
+                    <tr id="row-ecity">
+                        <td>EcoVolt Station</td>
+                        <td>Electronic City</td>
+                        <td>3</td>
+                        <td>8:00 AM – 10:00 PM</td>
+                        <td><button class="btn table-btn" onclick="openModal('EcoVolt Station')">Book Slot</button></td>
+                    </tr>
+                    <tr id="row-koramangala">
+                        <td>PowerCharge Point</td>
+                        <td>Koramangala</td>
+                        <td>4</td>
+                        <td>8:00 AM – 10:00 PM</td>
+                        <td><button class="btn table-btn" onclick="openModal('PowerCharge Point')">Book Slot</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="auth-grid-container">
+        <section id="register" class="auth-card">
+            <h1>Create Account</h1>
+            <form id="regForm" onsubmit="handleRegister(event)">
+                <label for="reg-name">Username</label>
+                <input type="text" id="reg-name" placeholder="Enter username" required>
+
+                <label for="reg-email">Email</label>
+                <input type="email" id="reg-email" placeholder="Enter email" required>
+
+                <label for="reg-pass">Password</label>
+                <input type="password" id="reg-pass" placeholder="Create password" required>
+
+                <label for="reg-confirm">Confirm Password</label>
+                <input type="password" id="reg-confirm" placeholder="Confirm password" required>
+
+                <input type="submit" value="Register" class="btn">
+            </form>
+            <div class="links">
+                <p>Already have an account? <a href="#login">Login here</a></p>
+            </div>
+        </section>
+
+        <section id="login" class="auth-card">
+            <h1>Login</h1>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <label for="log-name">Username</label>
+                <input type="text" id="log-name" placeholder="Enter username" required>
+
+                <label for="log-pass">Password</label>
+                <input type="password" id="log-pass" placeholder="Enter password" required>
+
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <div class="links">
+                <p>Don't have an account? <a href="#register">Register here</a></p>
+            </div>
+        </section>
+    </div>
+
+    <section id="about" class="section-padding">
+        <h1>About EVConnect</h1>
+        <p>EVConnect is a smart platform designed to help electric vehicle users easily locate nearby charging stations, check slot availability, and book charging sessions in advance.</p>
+        <p>Our mission is to make EV charging convenient, accessible, and efficient for everyone while supporting a greener and more sustainable future.</p>
+    </section>
+
+    <section id="contact" class="section-padding">
+        <h1>Contact Us</h1>
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully!');">
+            <label for="con-name">Name</label>
+            <input type="text" id="con-name" placeholder="Your name" required>
+
+            <label for="con-email">Email</label>
+            <input type="email" id="con-email" placeholder="Your email" required>
+
+            <label for="con-msg">Message</label>
+            <textarea id="con-msg" rows="5" placeholder="Write your message here..." required></textarea>
+
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2026 EVConnect EV Charging Station Network. All Rights Reserved.</p>
+</footer>
+
+<div id="bookingModal" class="modal-overlay">
+    <div class="modal-box">
+        <h2>Confirm Your Booking</h2>
+        <p>Would you like to reserve a slot at <strong id="modal-station-name"></strong>?</p>
+        <div class="modal-actions">
+            <button class="btn" onclick="confirmBooking()">Confirm Slot</button>
+            <button class="btn btn-close" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Initial Theme API Execution ---
+    const savedTheme = localStorage.getItem('app-theme') || 'light';
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        document.getElementById('theme-toggle').innerText = "☀️ Light";
+    }
+
+    function toggleTheme() {
+        const isDark = document.body.classList.toggle('dark-theme');
+        localStorage.setItem('app-theme', isDark ? 'dark' : 'light');
+        document.getElementById('theme-toggle').innerText = isDark ? "☀️ Light" : "🌙 Dark";
+    }
+
+    // --- Modal Management ---
+    function openModal(stationName) {
+        document.getElementById('modal-station-name').innerText = stationName;
+        document.getElementById('bookingModal').style.display = 'flex';
+    }
+    function closeModal() {
+        document.getElementById('bookingModal').style.display = 'none';
+    }
+    function confirmBooking() {
+        alert('Slot successfully booked via EVConnect!');
+        closeModal();
+    }
+
+    // --- HTML5 Geolocation API with Coordinate Mapping Logic ---
+    function getUserLocation() {
+        const statusText = document.getElementById('geo-status');
+        const banner = document.getElementById('proximity-match');
+        
+        if (!navigator.geolocation) {
+            statusText.innerText = "Geolocation is not supported by your browser";
+            return;
+        }
+        
+        statusText.innerText = "Accessing device GPS...";
+        
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                statusText.innerText = "Location mapped successfully!";
+                const lat = position.coords.latitude;
+                
+                // Clear any previous highlights
+                document.querySelectorAll('tbody tr').forEach(tr => tr.classList.remove('highlight-row'));
+                
+                banner.style.display = "block";
+                
+                // Real-world range bounds for Bengaluru coordinates
+                if (lat >= 12.96) {
+                    banner.innerHTML = "🎯 Based on your location, the closest hub is <strong>GreenCharge Hub (Whitefield)</strong>.";
+                    document.getElementById('row-whitefield').classList.add('highlight-row');
+                } else if (lat < 12.96 && lat >= 12.90) {
+                    banner.innerHTML = "🎯 Based on your location, the closest hub is <strong>PowerCharge Point (Koramangala)</strong>.";
+                    document.getElementById('row-koramangala').classList.add('highlight-row');
+                } else {
+                    banner.innerHTML = "🎯 Based on your location, the closest hub is <strong>EcoVolt Station (Electronic City)</strong>.";
+                    document.getElementById('row-ecity').classList.add('highlight-row');
+                }
+                
+                // Automatically scroll down smoothly to show the user their closest option
+                window.location.hash = '#stations';
+            },
+            () => { 
+                statusText.innerText = "Unable to retrieve location. Defaulting to standard grid map list."; 
+            }
+        );
+    }
+
+    // --- HTML5 Web Storage API (LocalStorage) ---
+    function handleRegister(e) {
+        e.preventDefault();
+        const user = document.getElementById('reg-name').value;
+        localStorage.setItem('ev_user', user);
+        alert(`Account created for ${user}! Stored locally.`);
+        window.location.hash = '#login';
+    }
+
+    function handleLogin(e) {
+        e.preventDefault();
+        const user = document.getElementById('log-name').value;
+        localStorage.setItem('ev_user', user);
+        alert(`Welcome back, ${user}!`);
+        window.location.hash = '#stations';
+    }
+</script>
+
+</body>
+</html>
