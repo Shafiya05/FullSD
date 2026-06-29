@@ -1,0 +1,398 @@
+/* RESET & VARIABLE DEFINITIONS */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+:root{
+    --bg-main:#f8f9fa;
+    --bg-card:#ffffff;
+    --text-main:#111827;
+    --text-muted:#4b5563;
+    --accent-green:#10b981;
+    --accent-hover:#059669;
+    --border-color:#d1d5db;
+    --header-bg:#111827;
+    --table-header:#f3f4f6;
+}
+
+.dark-theme{
+    --bg-main:#0f172a;
+    --bg-card:#1e293b;
+    --text-main:#f8fafc;
+    --text-muted:#cbd5e1;
+    --border-color:#334155;
+    --table-header:#334155;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg-main);
+    color:var(--text-main);
+}
+
+.app-container{
+    display:grid;
+    grid-template-rows:auto 1fr auto;
+    min-height:100vh;
+}
+
+/* MAIN CONTAINER SECTIONS */
+.spa-content section{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:100px 2rem 4rem;
+    max-width:1200px;
+    margin:auto;
+}
+
+/* Custom modifier to prevent authentication pages from taking full 100vh window space */
+.spa-content section.auth-card {
+    min-height: auto;
+    margin: 40px auto;
+}
+
+/* HEADER */
+.main-header{
+    background:var(--header-bg);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1rem 4rem;
+    position:sticky;
+    top:0;
+    z-index:999;
+}
+
+.logo{
+    color:#4e605a;
+    font-size:1.6rem;
+    font-weight:bold;
+}
+
+.nav-links{
+    display:flex;
+    gap:2rem;
+    list-style:none;
+}
+
+.nav-links a{
+    color:#d1d5db;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:#77cdb0;
+}
+
+.theme-btn{
+    margin-left:1.5rem;
+    padding:.5rem 1rem;
+    border-radius:20px;
+    border:1px solid #374151;
+    background:transparent;
+    color:white;
+    cursor:pointer;
+}
+
+/* HERO */
+.hero-section{
+    background:linear-gradient(135deg,#1e293b,#6f7f61);
+    color:white;
+}
+
+.hero-overlay{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100%;
+}
+
+.hero-content{
+    text-align:center;
+    max-width:650px;
+}
+
+.hero-content h1{
+    font-size:3rem;
+    margin-bottom:1rem;
+}
+
+.hero-content p{
+    font-size:1.2rem;
+    margin-bottom:2rem;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    gap:1rem;
+}
+
+/* BUTTON */
+.btn{
+    background:var(--accent-green);
+    color:white;
+    padding:.8rem 1.5rem;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    text-decoration:none;
+}
+
+.btn:hover{
+    background:var(--accent-hover);
+}
+
+.btn-secondary{
+    background:#374151;
+}
+
+.btn-secondary:hover{
+    background:#4b5563;
+}
+
+/* TABLE */
+.table-container{
+    background:var(--bg-card);
+    border-radius:10px;
+    overflow-x:auto;
+    border:1px solid var(--border-color);
+    padding:1rem;
+    width: 100%;
+    -webki-overflow-scrolling: touch;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    padding:1rem;
+    border-bottom:1px solid var(--border-color);
+}
+
+th{
+    background:var(--table-header);
+}
+
+.highlight-row{
+    background:rgba(236, 246, 232, 0.15);
+}
+
+/* AUTHENTICATION LAYOUT */
+.auth-card{
+    background:var(--bg-card);
+    border:1px solid var(--border-color);
+    border-radius:10px;
+    padding:2rem 1.5rem;
+    max-width:550px;
+    width:100%;
+    max-width: 500px;
+    margin: 30px auto;
+    box-shadow:0 5px 15px rgba(113, 181, 185, 0.08);
+}
+
+.auth-card h1{
+    margin-bottom:1.5rem;
+}
+
+/* FORM */
+form{
+    display:flex;
+    flex-direction:column;
+    gap:.8rem;
+}
+
+label{
+    font-weight:600;
+    color:var(--text-muted);
+}
+
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=date],
+input[type=file],
+select,
+textarea{
+    width:100%;
+    padding:.8rem;
+    border:1px solid var(--border-color);
+    border-radius:6px;
+    background:var(--bg-card);
+    color:var(--text-main);
+    font-size:1rem;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    outline:none;
+    border-color:var(--accent-green);
+}
+
+textarea{
+    resize:vertical;
+}
+
+.dark-theme select{
+    background:var(--bg-card);
+    color:var(--text-main);
+}
+
+input[type=file]{
+    cursor:pointer;
+}
+
+/* LINKS */
+.links{
+    margin-top:1rem;
+}
+
+.links a{
+    color:var(--accent-green);
+    text-decoration:none;
+}
+
+/* RESULT CARD */
+#resultCard{
+    display:none;
+    margin-top:1.5rem;
+    padding:1rem;
+    border:1px solid var(--border-color);
+    border-radius:8px;
+    background:var(--bg-card);
+}
+
+#resultCard h3{
+    margin-bottom:1rem;
+}
+
+#resultCard p{
+    margin:.5rem 0;
+}
+
+/* MODAL */
+.modal-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-box{
+    width:90%;
+    max-width:450px;
+    background:var(--bg-card);
+    padding:2rem;
+    border-radius:10px;
+    text-align:center;
+}
+
+.modal-actions{
+    display:flex;
+    justify-content:center;
+    gap:1rem;
+    margin-top:1.5rem;
+}
+
+.btn-close{
+    background:#ef4444;
+}
+
+.btn-close:hover{
+    background:#dc2626;
+}
+
+/* PROXIMITY */
+.proximity-banner{
+    background:#d1fae5;
+    color:#065f46;
+    padding:1rem;
+    border-left:5px solid #10b981;
+    border-radius:6px;
+    margin-bottom:1rem;
+}
+
+.dark-theme .proximity-banner{
+    background:#065f46;
+    color:#d1fae5;
+}
+
+/* FOOTER */
+footer{
+    background:var(--header-bg);
+    color:#9ca3af;
+    text-align:center;
+    padding:1.5rem;
+    margin-top:3rem;
+}
+
+/* RESPONSIVE */
+/* ALL-IN-ONE MOBILE RESPONSIVENESS OVERRIDES */
+@media (max-width: 768px) {
+    /* 1. Stack the navigation items cleanly */
+    .main-header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.5rem 1rem;
+    }
+
+    .nav-links {
+        justify-content: center;
+        gap: 1.2rem;
+        font-size: 0.95rem;
+    }
+    
+    .theme-btn {
+        margin-left: 0;
+        margin-top: 0.5rem;
+        width: 100%;
+        max-width: 120px;
+    }
+
+    /* 2. Adjust main content sections to fit without clipping text */
+    .spa-content section {
+        padding: 60px 1rem 30px; /* Reduced top/side padding so content fills mobile space safely */
+        min-height: auto; /* Prevents awkward full-screen stretching on vertical mobile views */
+    }
+
+    /* 3. Fluidly scale down text size in the Hero Section */
+    .hero-content h1 {
+        font-size: 2rem; /* Shrinks large titles so they don't break onto 4 rows */
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    /* 4. Make all input fields and text spaces feel native on a touch device */
+    input[type=text],
+    input[type=email],
+    input[type=password],
+    input[type=date],
+    input[type=file],
+    select {
+        font-size: 16px; /* Prevents iOS/Android from forcing an annoying zoom-in effect on selection */
+        padding: 0.7rem;
+    }
+    
+    /* 5. Scale down table cell typography so data grids compress cleanly */
+    th, td {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+}
