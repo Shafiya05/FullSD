@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVConnect</title>
+    <link rel="stylesheet" href="styleEV.css">
+</head>
+<body class="app-container">
+
+<header class="main-header">
+    <div class="logo">⚡ EVConnect</div>
+    <nav class="nav-bar">
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#stations" id="stationsLink" onclick="return goToStations(event)">Stations</a></li>
+            <li><a href="#register">Register</a></li>
+            <li><a href="#login" id="loginLink" onclick="return goToLogin(event)">Login</a></li>
+            <li><a href ="#Bookings" id="bookingsLink"">Bookings</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+
+        </ul>
+    </nav>
+    <button id="theme-toggle" class="theme-btn" onclick="toggleTheme()">🌙 Mode</button>
+</header>
+
+<main class="spa-content">
+    <section id="home" class="hero-section">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>Welcome to EVConnect</h1>
+                <p>Find and book ultra-fast EV charging stations near you with ease.</p>
+                <div class="hero-buttons">
+                    <a href="#stations" class="btn" onclick="return goToStations(event)">Explore Stations</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stations" class="section-padding">
+        <h1>Charging Stations</h1>
+        <div id="proximity-match" class="proximity-banner" style="display: none;"></div>
+        
+        <div class="table-container">
+            <button id="geo-btn" class="btn btn-secondary" onclick="getUserLocation()">📍 Locate Nearest Hub</button>
+            <p id="geo-status"></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Station Name</th>
+                        <th>Location</th>
+                        <th>Available Ports</th>
+                        <th>Timings</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="row-whitefield">
+                        <td>GreenCharge Hub</td>
+                        <td>Whitefield</td>
+                        <td>5</td>
+                        <td>8:00 AM – 10:00 PM</td>
+                        <td><button class="btn table-btn" onclick="openModal('GreenCharge Hub')">Book Slot</button></td>
+                    </tr>
+                    <tr id="row-ecity">
+                        <td>EcoVolt Station</td>
+                        <td>Electronic City</td>
+                        <td>3</td>
+                        <td>8:00 AM – 10:00 PM</td>
+                        <td><button class="btn table-btn" onclick="openModal('EcoVolt Station')">Book Slot</button></td>
+                    </tr>
+                    <tr id="row-koramangala">
+                        <td>PowerCharge Point</td>
+                        <td>Koramangala</td>
+                        <td>4</td>
+                        <td>8:00 AM – 10:00 PM</td>
+                        <td><button class="btn table-btn" onclick="openModal('PowerCharge Point')">Book Slot</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="register" class="auth-card">
+        <h1>Create Account</h1>
+        <form id="regForm" onsubmit="handleRegister(event)">
+            <label for="reg-name">Username</label>
+            <input type="text" id="reg-name" placeholder="Enter username" required>
+
+            <label for="reg-email">Email</label>
+            <input type="email" id="reg-email" placeholder="Enter email" required>
+
+            <label for="reg-pass">Password</label>
+           <input
+    type="password"
+    id="reg-pass"
+    pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}"
+    title="Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number."
+    required>
+
+            <label for="reg-confirm">Confirm Password</label>
+            <input type="password" id="reg-confirm" placeholder="Confirm password" required>
+
+            <label for="reg-date">Registration Date</label>
+            <input type="date" id="reg-date" required>
+
+            <label for="reg-role">Ecosystem Role</label>
+            <select id="reg-role" required>
+                <option value="" disabled selected>-- Select Your Role --</option>
+                <option value="Driver">EV Fleet Driver</option>
+                <option value="Host">Station Host</option>
+                <option value="Technician">Network Field Technician</option>
+            </select>
+
+            <label for="reg-file">Upload Supporting Verification Document (PDF/Image)</label>
+            <input type="file" id="reg-file" accept=".pdf, .png, .jpg" required>
+
+            <input type="submit" value="Register" class="btn">
+        </form>
+
+        <div id="resultCard">
+          <h3>Registered Profile</h3>
+          <img id="preview" width="150" alt="Upload Image">
+          <p><strong>Username:</strong> <span id="cardName"></span></p>  
+          <p><strong>Email:</strong> <span id="cardEmail"></span></p>
+          <p><strong>Date:</strong> <span id="cardDate"></span></p>
+          <p><strong>Ecosystem Role:</strong> <span id="cardRole"></span></p>
+          <p><strong>Uploaded File:</strong> <span id="cardFile"></span></p>
+          <img id="preview" width="150" alt="Upload Image">
+        </div>
+
+        <div class="links">
+            <p>Already have an account? <a href="#login">Login here</a></p>
+        </div>
+    </section>
+
+    <section id="login" class="auth-card">
+        <h1>Login</h1>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <label for="log-name">Username</label>
+            <input type="text" id="log-name" placeholder="Enter username" required>
+
+            <label for="log-pass">Password</label>
+           <input type="password" id="log-pass" placeholder="Enter password" required>
+
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <div class="links">
+            <p>Don't have an account? <a href="#register">Register here</a></p>
+        </div>
+    </section>
+
+    <section id="Bookings"class="auth-card">
+        <h2>Book Charging Slot</h2>
+        <form id ="bookingForm" onsubmit="handleBooking(event)">
+            <label for="station">Charging Station</label>
+            <select id="station" required>
+                <option value="">Select a station</option>
+                <option value="GreenCharge Hub">GreenCharge Hub</option>
+                <option value="EcoVolt Station">EcoVolt Station</option>
+                <option value="PowerCharge Point">PowerCharge Point</option>
+            </select>
+            <label for="vehicleNo">Vehicle Number</label>
+            <input type="text" id="vehicleNo" placeholder="Enter Vehicle Number" required>
+
+            <label for="date">Date</label>  
+            <input type="date" id="date" placeholder="Enter Date (YYYY-MM-DD)" required>
+            
+            <label for="time">Time</label>
+            <input type="time" id="time" placeholder="Enter Time (HH:MM)" required>
+            
+            <label for="hours" >Hours</label>
+            <input type="number" id="hours" placeholder="Enter Hours" min="1" max="24" required>
+            
+            
+            <button type="submit" class="btn">Book Slot</button>
+        </form>
+        <h5>My Bookings
+          <ul id="bookingList"></ul>
+        </h5>
+    </section>
+
+    <section id="about" class="section-padding">
+        <h1>About EVConnect</h1>
+        <p>EVConnect is a smart platform designed to help electric vehicle users easily locate nearby charging stations, check slot availability, and book charging sessions in advance.</p>
+        <p>Our mission is to make EV charging convenient, accessible, and efficient for everyone while supporting a greener and more sustainable future.</p>
+    </section>
+
+    <section id="contact" class="section-padding">
+        <h1>Contact Us</h1>
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully!');">
+            <label for="con-name">Name</label>
+            <input type="text" id="con-name" placeholder="Your name" required>
+
+            <label for="con-email">Email</label>
+            <input type="email" id="con-email" placeholder="Your email" required>
+
+            <label for="con-msg">Message</label>
+            <textarea id="con-msg" rows="5" placeholder="Write your message here..." required></textarea>
+
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2026 EVConnect EV Charging Station Network. All Rights Reserved.</p>
+</footer>
+
+<div id="bookingModal" class="modal-overlay">
+    <div class="modal-box">
+        <h2>Start Booking</h2>
+        <p>Would you like to reserve a slot at <strong id="modal-station-name"></strong>?</p>
+        <div class="modal-actions">
+            <button class="btn" onclick="confirmBooking()">Confirm Slot</button>
+            <button class="btn btn-close" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Initial Theme API Execution ---
+    const savedTheme = localStorage.getItem('app-theme') || 'light';
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        document.getElementById('theme-toggle').innerText = "☀️ Light";
+    }
+    let isregistered = false;
+
+    //---calender customization---
+    const today = new Date().toISOString().split('T')[0];
+
+        document.getElementById('reg-date').min = today;
+        document.getElementById('reg-date').max = today;
+
+        document.getElementById('loginLink').style.pointerEvents = 'none';
+        document.getElementById('loginLink').style.opacity = '0.5';
+
+        document.getElementById("stationsLink").style.pointerEvents = 'none';
+        document.getElementById("stationsLink").style.opacity = '0.5';
+
+    const today1 = new Date().toISOString().split('T')[0];
+    document.getElementById('date').min = today;
+
+   
+    
+    function toggleTheme() {
+        const isDark = document.body.classList.toggle('dark-theme');
+        localStorage.setItem('app-theme', isDark ? 'dark' : 'light');
+        document.getElementById('theme-toggle').innerText = isDark ? "☀️ Light" : "🌙 Dark";
+    }
+
+    // --- Modal Management ---
+    function openModal(stationName) {
+        if(!localStorage.getItem("ev_user")){
+            alert("Please login before booking charging slots.");
+            window.location.hash = "#login";
+            return;
+        }
+        document.getElementById('modal-station-name').innerText = stationName;
+        localStorage.setItem('selectedStation', stationName);
+        document.getElementById('bookingModal').style.display = 'flex';
+    }
+    function closeModal() {
+        document.getElementById('bookingModal').style.display = 'none';
+    }
+    function confirmBooking(){
+        if (!localStorage.getItem("ev_user")){
+            alert("Please login before booking a charging slot.");
+            window.location.hash = "#login";
+            return;
+        }
+        document.getElementById('bookingModal').style.display = 'none';
+        document.getElementById('modal-station-name').innerText = '';
+
+        closeModal();
+        window.location.hash = "#Bookings";
+
+        setTimeout(() => {
+           
+        const savedStation = localStorage.getItem('selectedStation');
+        document.getElementById('station').value = savedStation;
+    }, 100);
+    }
+    
+
+    // --- HTML5 Geolocation API with Coordinate Mapping Logic ---
+    function getUserLocation() {
+        const statusText = document.getElementById('geo-status');
+        const banner = document.getElementById('proximity-match');
+        
+        if (!navigator.geolocation) {
+            statusText.innerText = "Geolocation is not supported by your browser";
+            return;
+        }
+        
+        statusText.innerText = "Accessing device GPS...";
+        
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                statusText.innerText = "Location mapped successfully!";
+                const lat = position.coords.latitude;
+                
+                document.querySelectorAll('tbody tr').forEach(tr => tr.classList.remove('highlight-row'));
+                
+                banner.style.display = "block";
+                
+                if (lat >= 12.96) {
+                    banner.innerHTML = "🎯 Based on your location, the closest hub is <strong>GreenCharge Hub (Whitefield)</strong>.";
+                    document.getElementById('row-whitefield').classList.add('highlight-row');
+                } else if (lat < 12.96 && lat >= 12.90) {
+                    banner.innerHTML = "🎯 Based on your location, the closest hub is <strong>PowerCharge Point (Koramangala)</strong>.";
+                    document.getElementById('row-koramangala').classList.add('highlight-row');
+                } else {
+                    banner.innerHTML = "🎯 Based on your location, the closest hub is <strong>EcoVolt Station (Electronic City)</strong>.";
+                    document.getElementById('row-ecity').classList.add('highlight-row');
+                }
+                
+                window.location.hash = '#stations';
+            },
+            () => { 
+                statusText.innerText = "Unable to retrieve location. Defaulting to standard grid map list."; 
+            }
+        );
+    }
+
+    // --- JavaScript Form Handling & Validation Logic ---
+    const handleRegister = (event) => {
+        event.preventDefault();
+
+
+        const username = document.getElementById('reg-name').value;
+        const email = document.getElementById('reg-email').value;
+        const password = document.getElementById('reg-pass').value;
+        const confirmPassword = document.getElementById('reg-confirm').value;
+        const regDate = document.getElementById('reg-date').value;
+        const chosenRole = document.getElementById('reg-role').value;
+
+        const fileInput = document.getElementById('reg-file');
+        const uploadFile = fileInput.files[0];
+        const fileName = uploadFile ? uploadFile.name : "No file selected";
+
+        
+        if (password !== confirmPassword) {
+            alert("Validation Error: Passwords do not match!");
+            return;
+        }
+
+        if (uploadFile) {
+            const fileExtension = fileName.split('.').pop().toLowerCase();
+            if (chosenRole === "Host" && fileExtension !== "pdf") {
+                alert("Validation Error: Station Hosts must upload proof in PDF format.");
+                return;
+            }
+        }
+        if(uploadFile){
+            const reader = new FileReader();
+        
+        reader.onload = function(e){
+            document.getElementById("preview").src = e.target.result;
+        };
+        reader.readAsDataURL(uploadFile);
+
+        
+        document.getElementById('loginLink').style.pointerEvents = 'auto';
+        document.getElementById('loginLink').style.opacity = '1';
+    }
+        
+
+        
+        const driverProfile = { name: username, email: email, date: regDate, password: password, role: chosenRole, file: fileName };
+        localStorage.setItem('savedEcosystemUser', JSON.stringify(driverProfile));
+        
+        // 4. Update the View Elements
+        document.getElementById('cardName').innerText = username;
+        document.getElementById('cardEmail').innerText = email;
+        document.getElementById('cardDate').innerText = regDate;
+        document.getElementById('cardRole').innerText = chosenRole;
+        document.getElementById('cardFile').innerText = fileName;
+
+        // 5. Reveal the summary dashboard profile card
+        document.getElementById('resultCard').style.display = 'block';
+        
+        // Redirect to login section after registration
+        isregistered = true;
+        window.location.hash = '#login';
+    };
+   
+    // --- Load Memory Event Listener ---
+    window.addEventListener('load', () => {
+        const savedData = localStorage.getItem('savedEcosystemUser');
+
+        if (savedData) {
+            const user = JSON.parse(savedData);
+
+            document.getElementById('cardName').innerText = user.name;
+            document.getElementById('cardEmail').innerText = user.email;
+            document.getElementById('cardDate').innerText = user.date;
+            document.getElementById('cardRole').innerText = user.role;
+            document.getElementById('cardFile').innerText = user.file;
+
+            document.getElementById('resultCard').style.display = 'block';
+        }
+    });
+
+    // --- Login Handler ---
+    function handleLogin(e) {
+       e.preventDefault();
+
+       const enteredUser = document.getElementById("log-name").value;
+       const registeredData = localStorage.getItem('savedEcosystemUser');
+       if (!registeredData) {
+              alert("No registered user found. Please register first.");
+                window.location.hash = "#register";
+                return;
+          }
+        const registeredUser = JSON.parse(registeredData).name;
+        if (enteredUser !== registeredUser) {
+            alert("Login Error: User does not exist. Please try again.");
+            return;
+        }
+        
+        localStorage.setItem('ev_user', enteredUser);
+        document.getElementById('stationsLink').style.pointerEvents = 'auto';
+        document.getElementById('stationsLink').style.opacity = '1';
+        alert(`Welcome back, ${enteredUser}!`);
+        window.location.hash = '#stations';
+    }
+    function goToStations(event){
+        event.preventDefault();
+
+        if(!localStorage.getItem('ev_user')){
+            alert("Please login first to access charging stations.");
+            window.location.hash = "#login";
+            return;
+        }
+        window.location.hash = "#stations";
+    }
+    function handleBooking(event){
+        event.preventDefault();
+
+       
+        if(!localStorage.getItem('ev_user')){
+            alert("Please login first to book charging slots.");
+            window.location.hash = "#login";
+            return;
+        }
+        const id = Date.now();
+        const station = document.getElementById('station').value;
+        const vehicleNo = document.getElementById('vehicleNo').value;
+        const date = document.getElementById('date').value;
+        const time = document.getElementById('time').value;
+        const hours = document.getElementById('hours').value;
+        const bookingList = document.getElementById('bookingList');
+        const form = document.getElementById('bookingForm');
+        
+      
+        
+       
+        if(!station || !vehicleNo || !date || !time || !hours){
+            alert("Please fill in all booking details.");
+            return;
+        }
+   
+        const bookingDetails = { 
+            id, 
+            station, 
+            vehicleNo, 
+            date, 
+            time, 
+            hours
+         };
+        let bookings =
+         JSON.parse(localStorage.getItem('ev_bookings')) || [];
+
+        bookings.push(bookingDetails);
+        localStorage.setItem('ev_bookings', JSON.stringify(bookings));
+
+                
+        alert("Booking confirmed! Check 'My Bookings' section for details.");
+        displayBookings();
+        form.reset();
+        localStorage.removeItem('selectedStation'); 
+    }
+  
+    
+    function renderBookings(){
+        const bookingList = document.getElementById('bookingList');
+        const bookings = JSON.parse(localStorage.getItem('ev_bookings')) || [];
+        bookingList.innerHTML = bookings.map(renderbookings).join('');
+    }
+   
+
+    function displayBookings(){
+        const bookingList = document.getElementById('bookingList');
+        bookingList.innerHTML = '';
+
+        const bookings = JSON.parse(localStorage.getItem('ev_bookings')) || [];
+
+        bookings.forEach((booking) => {
+
+            const li = document.createElement('li');
+            
+            
+        li.innerHTML=`
+        Station: ${booking.station} |
+        Vehicle: ${booking.vehicleNo} |
+        Date: ${booking.date} |
+        Time: ${booking.time} |
+        Hours: ${booking.hours}
+
+        <button onclick="editBooking(${booking.id})">Edit</button>
+        <button onclick="deleteBooking(${booking.id})">Delete</button>
+        `;
+
+        bookingList.appendChild(li);
+        });
+    }
+        function deleteBooking(id){
+            const bookings = JSON.parse(localStorage.getItem('ev_bookings')) || [];
+            const updateBookings = bookings.filter(b => b.id !== id);
+            localStorage.setItem('ev_bookings', JSON.stringify(updateBookings));
+            displayBookings();
+        }
+        function editBooking(id){
+            const bookings = JSON.parse(localStorage.getItem('ev_bookings')) || [];
+            const booking = bookings.find(b => b.id === id);
+            if(booking){
+                document.getElementById('station').value = booking.station;
+                document.getElementById('vehicleNo').value = booking.vehicleNo;
+                document.getElementById('date').value = booking.date;
+                document.getElementById('time').value = booking.time;
+                document.getElementById('hours').value = booking.hours;
+
+                deleteBooking(id);
+            }
+        }
+    
+
+
+    </script>
+    </body>
+    </html>

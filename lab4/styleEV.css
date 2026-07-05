@@ -342,8 +342,6 @@ th{
 
     transition:all .3s ease;
 }
-
-
 .auth-card:hover{
     transform:translateY(-5px);
     box-shadow:
@@ -371,20 +369,6 @@ input[type=email],
 input[type=password],
 input[type=date],
 input[type=file],
-input[type=number],
-input[type=time]{
-    width:100%;
-    padding:.8rem;
-    border:2px solid #e5f0eb;
-    border-radius:10px;
-    background:#fbfdfc;
-    color:var(--text-main);
-    font-size:1rem;
-    transition:all .3s ease;
-}
-
-
-
 select,
 textarea{
     width:100%;
@@ -549,9 +533,6 @@ footer{
     input[type=password],
     input[type=date],
     input[type=file],
-    input[type=number],
-    input[type=time],
-    select,
     select {
         font-size: 16px; /* Prevents iOS/Android from forcing an annoying zoom-in effect on selection */
         padding: 0.7rem;
@@ -562,22 +543,4 @@ footer{
         padding: 0.6rem;
         font-size: 0.85rem;
     }
-  
-
-
-}
-input[type="time"],
-input[type="number"] {
-    width:100%;
-    padding:.8rem;
-    border:2px solid #e5f0eb;
-    border-radius:10px;
-    background:#fbfdfc;
-    color:var(--text-main);
-    font-size:1rem;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    box-sizing:border-box;
-    padding:.8rem !important;
-    appearance: none;
-    -webkit-appearance: none;
 }
