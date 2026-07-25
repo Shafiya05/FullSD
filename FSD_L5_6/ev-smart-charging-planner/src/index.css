@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+/* Small global defaults for the application shell. */
+body {
+  margin: 0;
+  min-width: 320px;
+}
