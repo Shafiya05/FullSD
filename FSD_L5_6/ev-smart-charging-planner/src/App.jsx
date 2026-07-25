@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import './App.css'
 import Navbar from './components/Navbar'
 import ChargingForm from './components/ChargingForm'
 import ResultCard from './components/ResultCard'
@@ -7,98 +8,10 @@ import BatteryProgress from './components/BatteryProgress'
 import Footer from './components/Footer'
 
 function App() {
-  const [vehicleType, setVehicleType] = useState('Car')
-  const [batteryCapacity, setBatteryCapacity] = useState('60')
-  const [currentCharge, setCurrentCharge] = useState('30')
-  const [targetCharge, setTargetCharge] = useState('80')
-  const [chargerType, setChargerType] = useState('Level 2')
-  const [electricityCost, setElectricityCost] = useState('8')
-  const [chargingCity, setChargingCity] = useState('Bangalore')
-  const [chargingDate, setChargingDate] = useState('')
-  const [chargingStartTime, setChargingStartTime] = useState('')
-  const [result, setResult] = useState(null)
-
-  const generatePlan = () => {
-    const capacity = Number(batteryCapacity) || 0
-    const current = Number(currentCharge)
-    const target = Number(targetCharge)
-    const costPerKwh = Number(electricityCost) || 0
-
-    if (target <= current) {
-      setResult({ error: 'Target charge must be greater than current charge.' })
-      return
-    }
-
-    const energyRequired = capacity * ((target - current) / 100)
-    const chargingRates = {
-      'Level 1': 2,
-      'Level 2': 7,
-      'DC Fast Charger': 50,
-    }
-    const chargingTime = energyRequired / chargingRates[chargerType]
-    const completionDateTime =
-      chargingDate && chargingStartTime
-        ? new Date(`${chargingDate}T${chargingStartTime}`)
-        : null
-
-    if (completionDateTime) {
-      completionDateTime.setMinutes(
-        completionDateTime.getMinutes() + Math.round(chargingTime * 60),
-      )
-    }
-
-    setResult({
-      vehicleType,
-      chargingCity,
-      energyRequired,
-      chargingTime,
-      estimatedCost: energyRequired * costPerKwh,
-      completionTime: completionDateTime
-        ? completionDateTime.toLocaleString('en-IN', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: '2-digit',
-          })
-        : 'Select a charging date and start time',
-      batteryHealth:
-        current >= 80 ? 'Excellent' : current >= 50 ? 'Good' : 'Needs Charging',
-    })
-  }
-
-  return (
-    <main className="min-h-screen bg-slate-50 text-slate-800">
-      <Navbar />
-      <section className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-10">
-        <ChargingForm
-          vehicleType={vehicleType}
-          setVehicleType={setVehicleType}
-          batteryCapacity={batteryCapacity}
-          setBatteryCapacity={setBatteryCapacity}
-          currentCharge={currentCharge}
-          setCurrentCharge={setCurrentCharge}
-          targetCharge={targetCharge}
-          setTargetCharge={setTargetCharge}
-          chargerType={chargerType}
-          setChargerType={setChargerType}
-          electricityCost={electricityCost}
-          setElectricityCost={setElectricityCost}
-          chargingCity={chargingCity}
-          setChargingCity={setChargingCity}
-          chargingDate={chargingDate}
-          setChargingDate={setChargingDate}
-          chargingStartTime={chargingStartTime}
-          setChargingStartTime={setChargingStartTime}
-          onGeneratePlan={generatePlan}
-        />
-        <ResultCard result={result} />
-        <WeatherCard city={chargingCity} />
-        <BatteryProgress targetCharge={targetCharge} />
-      </section>
-      <Footer />
-    </main>
-  )
+  const [vehicleType,setVehicleType]=useState('Car'), [batteryCapacity,setBatteryCapacity]=useState('60'), [currentCharge,setCurrentCharge]=useState('30'), [targetCharge,setTargetCharge]=useState('80'), [chargerType,setChargerType]=useState('Level 2'), [electricityCost,setElectricityCost]=useState('8'), [chargingCity,setChargingCity]=useState('Bangalore'), [chargingDate,setChargingDate]=useState(''), [chargingStartTime,setChargingStartTime]=useState(''), [result,setResult]=useState(null), [formErrors,setFormErrors]=useState({}), [isGenerating,setIsGenerating]=useState(false)
+  const summaryRef=useRef(null)
+  const generatePlan=()=>{const capacity=Number(batteryCapacity),current=Number(currentCharge),target=Number(targetCharge),cost=Number(electricityCost),errors={}; if(!vehicleType)errors.vehicleType='Choose a vehicle type.';if(!batteryCapacity||capacity<=0)errors.batteryCapacity='Enter a battery capacity greater than 0.';if(!chargerType)errors.chargerType='Choose a charger type.';if(electricityCost===''||cost<0)errors.electricityCost='Enter an electricity cost of 0 or more.';if(!chargingDate)errors.chargingDate='Select a charging date.';if(!chargingStartTime)errors.chargingStartTime='Select a charging start time.';if(target<=current)errors.targetCharge='Target charge must be greater than current charge.';if(Object.keys(errors).length){setFormErrors(errors);return}setFormErrors({});setIsGenerating(true);setTimeout(()=>{const energyRequired=capacity*((target-current)/100),rates={'Level 1':2,'Level 2':7,'DC Fast Charger':50},chargingTime=energyRequired/rates[chargerType],completion=new Date(`${chargingDate}T${chargingStartTime}`);completion.setMinutes(completion.getMinutes()+Math.round(chargingTime*60));setResult({vehicleType,chargingCity,energyRequired,chargingTime,estimatedCost:energyRequired*cost,completionTime:completion.toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'numeric',minute:'2-digit'}),batteryHealth:current>=80?'Excellent':current>=50?'Good':'Needs Charging'});setIsGenerating(false);requestAnimationFrame(()=>summaryRef.current?.scrollIntoView({behavior:'smooth',block:'start'}))},1000)}
+  const resetPlan=()=>{setVehicleType('');setBatteryCapacity('');setCurrentCharge('0');setTargetCharge('0');setChargerType('');setElectricityCost('');setChargingDate('');setChargingStartTime('');setResult(null);setFormErrors({})}
+  return <main className="app"><Navbar/><section className="page"><ChargingForm {...{vehicleType,setVehicleType,batteryCapacity,setBatteryCapacity,currentCharge,setCurrentCharge,targetCharge,setTargetCharge,chargerType,setChargerType,electricityCost,setElectricityCost,chargingCity,setChargingCity,chargingDate,setChargingDate,chargingStartTime,setChargingStartTime,onGeneratePlan:generatePlan,onReset:resetPlan,formErrors,isGenerating}}/><div ref={summaryRef}><ResultCard result={result}/></div><WeatherCard city={chargingCity}/><BatteryProgress currentCharge={currentCharge} targetCharge={targetCharge}/></section><Footer/></main>
 }
-
 export default App

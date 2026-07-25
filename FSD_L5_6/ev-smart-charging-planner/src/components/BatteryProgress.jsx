@@ -1,18 +1,1 @@
-function BatteryProgress({ targetCharge }) {
-  return (
-    <section className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-slate-900">Battery progress</h2>
-        <span className="text-sm font-medium text-slate-500">{targetCharge}%</span>
-      </div>
-      <div className="mt-4 h-3 overflow-hidden rounded-full bg-slate-200">
-        <div
-          className="h-full rounded-full bg-emerald-500 transition-all duration-500 ease-out"
-          style={{ width: `${targetCharge}%` }}
-        ></div>
-      </div>
-    </section>
-  )
-}
-
-export default BatteryProgress
+function BatteryProgress({currentCharge,targetCharge}){const current=Number(currentCharge)||0,target=Number(targetCharge)||0;return <section className="card fade-in"><div className="heading-row"><div><h2 className="heading">🔋 Battery Progress</h2><p className="subtitle">Track your current charge and charging goal.</p></div><b className="pill">Target {target}%</b></div><div className="progress-meta"><span>Current Charge <strong>{current}%</strong></span><span>Target Charge <strong>{target}%</strong></span></div><div className="progress"><div className="progress-fill" style={{width:`${target}%`}} role="progressbar" aria-valuenow={target} aria-valuemin="0" aria-valuemax="100"/></div><div className="scale"><span>0%</span><span>100%</span></div></section>};export default BatteryProgress
