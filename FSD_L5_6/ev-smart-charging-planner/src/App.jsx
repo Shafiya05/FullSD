@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Navbar from './components/Navbar'
 import ChargingForm from './components/ChargingForm'
 import ResultCard from './components/ResultCard'
+import WeatherCard from './components/WeatherCard'
 import BatteryProgress from './components/BatteryProgress'
 import Footer from './components/Footer'
 
@@ -92,6 +93,7 @@ function App() {
           onGeneratePlan={generatePlan}
         />
         <ResultCard result={result} />
+        <WeatherCard city={chargingCity} />
         <BatteryProgress targetCharge={targetCharge} />
       </section>
       <Footer />
