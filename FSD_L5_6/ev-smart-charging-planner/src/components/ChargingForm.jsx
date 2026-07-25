@@ -1,15 +1,24 @@
-import { useState } from 'react'
-
-function ChargingForm() {
-  const [vehicleType, setVehicleType] = useState('Car')
-  const [batteryCapacity, setBatteryCapacity] = useState('60')
-  const [currentCharge, setCurrentCharge] = useState('30')
-  const [targetCharge, setTargetCharge] = useState('80')
-  const [chargerType, setChargerType] = useState('Level 2')
-  const [electricityCost, setElectricityCost] = useState('8')
-  const [chargingCity, setChargingCity] = useState('Bangalore')
-  const [chargingDate, setChargingDate] = useState('')
-  const [chargingStartTime, setChargingStartTime] = useState('')
+function ChargingForm({
+  vehicleType,
+  setVehicleType,
+  batteryCapacity,
+  setBatteryCapacity,
+  currentCharge,
+  setCurrentCharge,
+  targetCharge,
+  setTargetCharge,
+  chargerType,
+  setChargerType,
+  electricityCost,
+  setElectricityCost,
+  chargingCity,
+  setChargingCity,
+  chargingDate,
+  setChargingDate,
+  chargingStartTime,
+  setChargingStartTime,
+  onGeneratePlan,
+}) {
 
   const inputClassName =
     'mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100'
@@ -23,7 +32,13 @@ function ChargingForm() {
         <p className="mt-2 text-slate-600">Plan your EV charging session efficiently.</p>
       </div>
 
-      <form className="space-y-7" onSubmit={(event) => event.preventDefault()}>
+      <form
+        className="space-y-7"
+        onSubmit={(event) => {
+          event.preventDefault()
+          onGeneratePlan()
+        }}
+      >
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <label className="block text-sm font-semibold text-slate-700">
             Vehicle Type
