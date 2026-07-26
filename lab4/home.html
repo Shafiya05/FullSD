@@ -325,66 +325,93 @@
         );
     }
 
-    // --- JavaScript Form Handling & Validation Logic ---
-    const handleRegister = (event) => {
+    // --- Registration form: validate input and save the profile through the API ---
+    const handleRegister = async (event) => {
         event.preventDefault();
 
-
-        const username = document.getElementById('reg-name').value;
-        const email = document.getElementById('reg-email').value;
+        const form = document.getElementById('regForm');
+        const username = document.getElementById('reg-name').value.trim();
+        const email = document.getElementById('reg-email').value.trim();
         const password = document.getElementById('reg-pass').value;
         const confirmPassword = document.getElementById('reg-confirm').value;
-        const regDate = document.getElementById('reg-date').value;
-        const chosenRole = document.getElementById('reg-role').value;
-
+        const registrationDate = document.getElementById('reg-date').value;
+        const ecosystemRole = document.getElementById('reg-role').value;
         const fileInput = document.getElementById('reg-file');
         const uploadFile = fileInput.files[0];
-        const fileName = uploadFile ? uploadFile.name : "No file selected";
+        const documentName = uploadFile ? uploadFile.name : '';
 
-        
         if (password !== confirmPassword) {
-            alert("Validation Error: Passwords do not match!");
+            alert('Validation Error: Passwords do not match!');
             return;
         }
 
         if (uploadFile) {
-            const fileExtension = fileName.split('.').pop().toLowerCase();
-            if (chosenRole === "Host" && fileExtension !== "pdf") {
-                alert("Validation Error: Station Hosts must upload proof in PDF format.");
+            const fileExtension = documentName.split('.').pop().toLowerCase();
+            if (ecosystemRole === 'Host' && fileExtension !== 'pdf') {
+                alert('Validation Error: Station Hosts must upload proof in PDF format.');
                 return;
             }
         }
-        if(uploadFile){
-            const reader = new FileReader();
-        
-        reader.onload = function(e){
-            document.getElementById("preview").src = e.target.result;
-        };
-        reader.readAsDataURL(uploadFile);
 
-        
-        document.getElementById('loginLink').style.pointerEvents = 'auto';
-        document.getElementById('loginLink').style.opacity = '1';
-    }
-        
+        try {
+            // The file itself remains in the browser; only its filename is sent to MongoDB.
+            const response = await fetch('http://localhost:5000/api/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password,
+                    registrationDate,
+                    ecosystemRole,
+                    documentName,
+                }),
+            });
 
-        
-        const driverProfile = { name: username, email: email, date: regDate, password: password, role: chosenRole, file: fileName };
-        localStorage.setItem('savedEcosystemUser', JSON.stringify(driverProfile));
-        
-        // 4. Update the View Elements
-        document.getElementById('cardName').innerText = username;
-        document.getElementById('cardEmail').innerText = email;
-        document.getElementById('cardDate').innerText = regDate;
-        document.getElementById('cardRole').innerText = chosenRole;
-        document.getElementById('cardFile').innerText = fileName;
+            const data = await response.json();
 
-        // 5. Reveal the summary dashboard profile card
-        document.getElementById('resultCard').style.display = 'block';
-        
-        // Redirect to login section after registration
-        isregistered = true;
-        window.location.hash = '#login';
+            if (!response.ok) {
+                throw new Error(data.message || 'Unable to register user');
+            }
+
+            const user = data.user;
+
+            // Keep the existing image-preview behavior for locally selected images.
+            if (uploadFile) {
+                const reader = new FileReader();
+                reader.onload = (previewEvent) => {
+                    document.getElementById('preview').src = previewEvent.target.result;
+                };
+                reader.readAsDataURL(uploadFile);
+            }
+
+            // Preserve the page's existing local login behavior after a successful API save.
+            localStorage.setItem('savedEcosystemUser', JSON.stringify({
+                name: user.username,
+                email: user.email,
+                date: user.registrationDate,
+                password: user.password,
+                role: user.ecosystemRole,
+                file: user.documentName,
+            }));
+
+            // Update the existing result card with the data confirmed by the server.
+            document.getElementById('cardName').innerText = user.username;
+            document.getElementById('cardEmail').innerText = user.email;
+            document.getElementById('cardDate').innerText = user.registrationDate;
+            document.getElementById('cardRole').innerText = user.ecosystemRole;
+            document.getElementById('cardFile').innerText = user.documentName;
+            document.getElementById('resultCard').style.display = 'block';
+
+            document.getElementById('loginLink').style.pointerEvents = 'auto';
+            document.getElementById('loginLink').style.opacity = '1';
+            isregistered = true;
+            form.reset();
+            alert("Registration Successful");
+        } catch (error) {
+            console.error('Registration error:', error);
+            alert(error.message);
+        }
     };
    
     // --- Load Memory Event Listener ---
